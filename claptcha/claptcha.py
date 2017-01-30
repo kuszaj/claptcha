@@ -14,11 +14,12 @@ class ClaptchaError(Exception):
 
 
 class Claptcha(object):
-    def __init__(self, source, size, margin, font):
+    def __init__(self, source, size, margin, font, format='PNG'):
         self.source = source
         self.size = size
         self.margin = margin
         self.font = font
+        self.format = format
 
         self.__image = None
 
@@ -35,7 +36,6 @@ class Claptcha(object):
         draw = ImageDraw(self.__image)
 
         return self.__image
-
 
     @property
     def source(self):

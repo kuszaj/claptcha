@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import os
 import random
 from functools import wraps
 from io import BytesIO
@@ -16,6 +17,7 @@ class Claptcha(object):
     def __init__(self, size, margin, font):
         self.size = size
         self.margin = margin
+        self.font = font
 
     def _with_pair_validator(func):
         @wraps(func)
@@ -60,3 +62,23 @@ class Claptcha(object):
     @property
     def margin_y(self):
         return self.__margin[1]
+
+    def _with_file_validator(func):
+        @wraps(func)
+        def wrapper(inst, file):
+            if not os.path.exists(file):
+                raise ClaptchaError("%s doesn't exist" % (file,))
+            if not os.path.isfile(file):
+                raise ClaptchaError("%s is not a file" % (file,))
+            return func(inst, file)
+        return wrapper
+
+    @property
+    def font(self):
+        return self.__font
+
+    @font.setter
+    @_with_file_validator
+    def font(self, font):
+        fontsize = self.h - 2 * self.margin_x
+        self.__font = ImageFont.truetype(font, fontsize)

@@ -111,10 +111,11 @@ class Claptcha(object):
     def _with_file_validator(func):
         @wraps(func)
         def wrapper(inst, file):
-            if not os.path.exists(file):
-                raise ClaptchaError("%s doesn't exist" % (file,))
-            if not os.path.isfile(file):
-                raise ClaptchaError("%s is not a file" % (file,))
+            if not isintance(file, ImageFont):
+                if not os.path.exists(file):
+                    raise ClaptchaError("%s doesn't exist" % (file,))
+                if not os.path.isfile(file):
+                    raise ClaptchaError("%s is not a file" % (file,))
             return func(inst, file)
         return wrapper
 
@@ -125,5 +126,8 @@ class Claptcha(object):
     @font.setter
     @_with_file_validator
     def font(self, font):
-        fontsize = self.h - 2 * self.margin_x
-        self.__font = ImageFont.truetype(font, fontsize)
+        if isinstance(font, ImageFont):
+            self.__font = font
+        else:
+            fontsize = self.h - 2 * self.margin_x
+            self.__font = ImageFont.truetype(font, fontsize)

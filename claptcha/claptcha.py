@@ -33,9 +33,19 @@ class Claptcha(object):
         self.__image = Image.new('RGBA',
                                  (w + 2*margin_x, h + 2*margin_y),
                                  (0, 0, 0, 0))
-        draw = ImageDraw(self.__image)
+        draw = ImageDraw.Draw(self.__image)
 
         return self.__image
+
+    @property
+    def bytes(self):
+        bytes = BytesIO()
+        self.image.save(bytes, format = self.format)
+        bytes.seek(0)
+        return bytes
+
+    def write(self, file):
+        self.image.save(file, format = self.format)
 
     @property
     def source(self):

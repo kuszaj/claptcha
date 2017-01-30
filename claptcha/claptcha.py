@@ -67,7 +67,7 @@ class Claptcha(object):
     def _with_pair_validator(func):
         @wraps(func)
         def wrapper(inst, pair):
-            if not hasattr(pair, '__len__') or not hasattr(pair, '__getitem__'):
+            if not (hasattr(pair, '__len__') and hasattr(pair, '__getitem__')):
                 raise ClaptchaError("Sequence not provided")
             if len(pair) != 2:
                 raise ClaptchaError("Sequence has to have exactly 2 elements")

@@ -14,10 +14,28 @@ class ClaptchaError(Exception):
 
 
 class Claptcha(object):
-    def __init__(self, size, margin, font):
+    def __init__(self, source, size, margin, font):
+        self.source = source
         self.size = size
         self.margin = margin
         self.font = font
+
+    @property
+    def source(self):
+        return self.__source
+
+    @source.setter
+    def source(self, source):
+        if not (isinstance(source, str) or callable(source)):
+            raise ClaptchaError("source has to be either a string or be callable")
+        self.__source = source
+
+    @property
+    def text(self):
+        if isinstance(self.source, str):
+            return self.source
+        else:
+            return self.source()
 
     def _with_pair_validator(func):
         @wraps(func)

@@ -20,6 +20,23 @@ class Claptcha(object):
         self.margin = margin
         self.font = font
 
+        self.__image = None
+
+    @property
+    def image(self):
+        text = self.text
+        w, h = self.font.getsize(text)
+        margin_x = round(self.margin_x * w / self.w)
+        margin_y = round(self.margin_y * h / self.h)
+
+        self.__image = Image.new('RGBA',
+                                 (w + 2*margin_x, h + 2*margin_y),
+                                 (0, 0, 0, 0))
+        draw = ImageDraw(self.__image)
+
+        return self.__image
+
+
     @property
     def source(self):
         return self.__source

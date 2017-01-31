@@ -30,12 +30,12 @@ class Claptcha(object):
         margin_x = round(self.margin_x * w / self.w)
         margin_y = round(self.margin_y * h / self.h)
 
-        self.__image = Image.new('RGBA',
-                                 (w + 2*margin_x, h + 2*margin_y),
-                                 (0, 0, 0, 0))
-        draw = ImageDraw.Draw(self.__image)
+        image = Image.new('RGBA',
+                          (w + 2*margin_x, h + 2*margin_y),
+                          (0, 0, 0, 0))
+        draw = ImageDraw.Draw(image)
 
-        return self.__image
+        return image
 
     @property
     def bytes(self):

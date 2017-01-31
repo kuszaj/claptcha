@@ -139,13 +139,42 @@ class Claptcha(object):
 
         for c in text:
             # Write letter
-            im = Image.new('RGBA', image.size, (0,0,0,0))
-            d = ImageDraw.Draw(im)
-            d.text((x+offset, y), c, font=self.font, fill=(0,0,0,255))
+            c_size = self.font.getsize(c)
+            c_image = Image.new('RGBA', c_size, (0,0,0,0))
+            c_draw = ImageDraw.Draw(c_image)
+            c_draw.text((0, 0), c, font=self.font, fill=(0,0,0,255))
 
             # Transform
+            c_image = self._randomQuadTransform(c_image)
 
             # Paste onto image
-            image.paste(im, (0,0), im)
-            dx, _ = self.font.getsize(c)
-            offset += dx
+            image.paste(c_image, (x+offset, y), c_image)
+            offset += c_size[0]
+
+    def _randomQuadTransform(self, image):
+        w,h = image.size
+
+        dx = w * random.uniform(0.2, 0.7)
+        dy = h * random.uniform(0.2, 0.7)
+
+        x1, y1 = self.__class__._rndPointDisposition(dx, dy)
+        x2, y2 = self.__class__._rndPointDisposition(dx, dy)
+
+        w += abs(x1) + abs(x2)
+        h += abs(x1) + abs(x2)
+
+        quad = (
+            x1,     -y1,
+            -x1,    h + y2,
+            w + x2, h - y2,
+            w - x2, y1
+        )
+
+        return image.transform(image.size, Image.QUAD,
+                               data=quad, resample=Image.BILINEAR)
+
+    @staticmethod
+    def _rndPointDisposition(dx, dy):
+        x = int(random.uniform(-dx, dx))
+        y = int(random.uniform(-dy, dy))
+        return (x,y)

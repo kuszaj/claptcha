@@ -21,8 +21,6 @@ class Claptcha(object):
         self.font = font
         self.format = format
 
-        self.__image = None
-
     @property
     def image(self):
         text = self.text
@@ -30,10 +28,13 @@ class Claptcha(object):
         margin_x = round(self.margin_x * w / self.w)
         margin_y = round(self.margin_y * h / self.h)
 
-        image = Image.new('RGBA',
+        image = Image.new('RGB',
                           (w + 2*margin_x, h + 2*margin_y),
-                          (0, 0, 0, 0))
+                          (255, 255, 255, 255))
         draw = ImageDraw.Draw(image)
+
+        # Text
+        self._writeText(image, text, pos=(margin_x, margin_y))
 
         return image
 
@@ -111,7 +112,7 @@ class Claptcha(object):
     def _with_file_validator(func):
         @wraps(func)
         def wrapper(inst, file):
-            if not isintance(file, ImageFont):
+            if not isinstance(file, ImageFont.ImageFont):
                 if not os.path.exists(file):
                     raise ClaptchaError("%s doesn't exist" % (file,))
                 if not os.path.isfile(file):
@@ -126,8 +127,25 @@ class Claptcha(object):
     @font.setter
     @_with_file_validator
     def font(self, font):
-        if isinstance(font, ImageFont):
+        if isinstance(font, ImageFont.ImageFont):
             self.__font = font
         else:
             fontsize = self.h - 2 * self.margin_x
             self.__font = ImageFont.truetype(font, fontsize)
+
+    def _writeText(self, image, text, pos):
+        offset = 0
+        x,y = pos
+
+        for c in text:
+            # Write letter
+            im = Image.new('RGBA', image.size, (0,0,0,0))
+            d = ImageDraw.Draw(im)
+            d.text((x+offset, y), c, font=self.font, fill=(0,0,0,255))
+
+            # Transform
+
+            # Paste onto image
+            image.paste(im, (0,0), im)
+            dx, _ = self.font.getsize(c)
+            offset += dx

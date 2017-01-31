@@ -144,13 +144,13 @@ class Claptcha(object):
             c_draw.text((0, 0), c, font=self.font, fill=(0,0,0,255))
 
             # Transform
-            c_image = self._randomQuadTransform(c_image)
+            c_image = self._rndLetterTransform(c_image)
 
             # Paste onto image
             image.paste(c_image, (x+offset, y), c_image)
             offset += c_size[0]
 
-    def _randomQuadTransform(self, image):
+    def _rndLetterTransform(self, image):
         w,h = image.size
 
         dx = w * random.uniform(0.2, 0.7)

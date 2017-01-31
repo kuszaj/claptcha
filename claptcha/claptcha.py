@@ -188,12 +188,7 @@ class Claptcha(object):
         w += abs(x1) + abs(x2)
         h += abs(x1) + abs(x2)
 
-        quad = (
-            x1,     -y1,
-            -x1,    h + y2,
-            w + x2, h - y2,
-            w - x2, y1
-        )
+        quad = self.__class__._quadPoints((w,h), (x1,y1), (x2,y2))
 
         return image.transform(image.size, Image.QUAD,
                                data=quad, resample=Image.BILINEAR)
@@ -207,12 +202,7 @@ class Claptcha(object):
         x1, y1 = [abs(z) for z in self.__class__._rndPointDisposition(dx, dy)]
         x2, y2 = [abs(z) for z in self.__class__._rndPointDisposition(dx, dy)]
 
-        quad = (
-            x1,    -y1,
-            -x1,    h + y2,
-            w + x2, h - y2,
-            w - x2, y1
-        )
+        quad = self.__class__._quadPoints((w,h), (x1,y1), (x2,y2))
 
         return image.transform(image.size, Image.QUAD,
                                data=quad, resample=Image.BILINEAR)
@@ -222,3 +212,16 @@ class Claptcha(object):
         x = int(random.uniform(-dx, dx))
         y = int(random.uniform(-dy, dy))
         return (x,y)
+
+    @staticmethod
+    def _quadPoints(size, disp1, disp2):
+        w,h = size
+        x1,y1 = disp1
+        x2,y2 = disp2
+
+        return (
+            x1,    -y1,
+            -x1,    h + y2,
+            w + x2, h - y2,
+            w - x2, y1
+        )

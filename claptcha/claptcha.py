@@ -35,6 +35,9 @@ class Claptcha(object):
         # Text
         self._writeText(image, text, pos=(margin_x, margin_y))
 
+        # Two lines
+        self._drawLine(image)
+
         return image
 
     @property
@@ -150,6 +153,29 @@ class Claptcha(object):
             image.paste(c_image, (x+offset, y), c_image)
             offset += c_size[0]
 
+    def _drawLine(self, image):
+        w,h = image.size
+        w *= 5
+        h *= 5
+
+        l_image = Image.new('RGBA', (w,h), (0,0,0,0))
+        l_draw = ImageDraw.Draw(l_image)
+
+        x1 = int(w * random.uniform(0, 0.1))
+        y1 = int(h * random.uniform(0, 1))
+        x2 = int(w * random.uniform(0.9, 1))
+        y2 = int(h * random.uniform(0, 1))
+
+        # Draw
+        l_draw.line(((x1, y1), (x2, y2)), fill=(0, 0, 0, 0xff), width=12)
+
+        # Transform
+        l_image = self._rndLineTransform(l_image)
+        l_image = l_image.resize(image.size, resample=Image.BILINEAR)
+
+        # Paste onto image
+        image.paste(l_image, (0,0), l_image)
+
     def _rndLetterTransform(self, image):
         w,h = image.size
 
@@ -164,6 +190,25 @@ class Claptcha(object):
 
         quad = (
             x1,     -y1,
+            -x1,    h + y2,
+            w + x2, h - y2,
+            w - x2, y1
+        )
+
+        return image.transform(image.size, Image.QUAD,
+                               data=quad, resample=Image.BILINEAR)
+
+    def _rndLineTransform(self, image):
+        w,h = image.size
+
+        dx = w * random.uniform(0.2, 0.5)
+        dy = h * random.uniform(0.2, 0.5)
+        
+        x1, y1 = [abs(z) for z in self.__class__._rndPointDisposition(dx, dy)]
+        x2, y2 = [abs(z) for z in self.__class__._rndPointDisposition(dx, dy)]
+
+        quad = (
+            x1,    -y1,
             -x1,    h + y2,
             w + x2, h - y2,
             w - x2, y1

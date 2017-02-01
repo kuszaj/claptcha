@@ -44,10 +44,11 @@ class Claptcha(object):
 
     @property
     def bytes(self):
+        text, image = self.image
         bytes = BytesIO()
-        self.image.save(bytes, format = self.format)
+        image.save(bytes, format = self.format)
         bytes.seek(0)
-        return bytes
+        return (text, bytes)
 
     def write(self, file):
         self.image.save(file, format = self.format)

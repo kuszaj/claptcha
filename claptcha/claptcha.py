@@ -167,7 +167,7 @@ class Claptcha(object):
         y2 = int(h * random.uniform(0, 1))
 
         # Draw
-        l_draw.line(((x1, y1), (x2, y2)), fill=(0, 0, 0, 0xff), width=12)
+        l_draw.line(((x1, y1), (x2, y2)), fill=(0, 0, 0, 255), width=12)
 
         # Transform
         l_image = self._rndLineTransform(l_image)

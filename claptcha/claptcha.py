@@ -14,14 +14,14 @@ class ClaptchaError(Exception):
 
 
 class Claptcha(object):
-    def __init__(self, source, size, margin, font, format='PNG', resample=Image.BILINEAR):
+    def __init__(self, source, font, size=(200,80), margin=(20,20), **kwargs):
         self.source = source
         self.size = size
         self.margin = margin
         self.font = font
 
-        self.format = format
-        self.resample = resample
+        self.format = kwargs.get('format', 'PNG')
+        self.resample = kwargs.get('resample', Image.BILINEAR)
 
     @property
     def image(self):

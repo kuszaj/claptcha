@@ -14,12 +14,14 @@ class ClaptchaError(Exception):
 
 
 class Claptcha(object):
-    def __init__(self, source, size, margin, font, format='PNG'):
+    def __init__(self, source, size, margin, font, format='PNG', resample=Image.BILINEAR):
         self.source = source
         self.size = size
         self.margin = margin
         self.font = font
+
         self.format = format
+        self.resample = resample
 
     @property
     def image(self):
@@ -171,7 +173,7 @@ class Claptcha(object):
 
         # Transform
         l_image = self._rndLineTransform(l_image)
-        l_image = l_image.resize(image.size, resample=Image.BILINEAR)
+        l_image = l_image.resize(image.size, resample=self.resample)
 
         # Paste onto image
         image.paste(l_image, (0,0), l_image)
@@ -191,7 +193,7 @@ class Claptcha(object):
         quad = self.__class__._quadPoints((w,h), (x1,y1), (x2,y2))
 
         return image.transform(image.size, Image.QUAD,
-                               data=quad, resample=Image.BILINEAR)
+                               data=quad, resample=self.resample)
 
     def _rndLineTransform(self, image):
         w,h = image.size
@@ -205,7 +207,7 @@ class Claptcha(object):
         quad = self.__class__._quadPoints((w,h), (x1,y1), (x2,y2))
 
         return image.transform(image.size, Image.QUAD,
-                               data=quad, resample=Image.BILINEAR)
+                               data=quad, resample=self.resample)
 
     @staticmethod
     def _rndPointDisposition(dx, dy):

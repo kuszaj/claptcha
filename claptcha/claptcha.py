@@ -30,7 +30,7 @@ class Claptcha(object):
 
         image = Image.new('RGB',
                           (w + 2*margin_x, h + 2*margin_y),
-                          (255, 255, 255, 255))
+                          (255, 255, 255))
 
         # Text
         self._writeText(image, text, pos=(margin_x, margin_y))

@@ -22,6 +22,7 @@ class Claptcha(object):
 
         self.format = kwargs.get('format', 'PNG')
         self.resample = kwargs.get('resample', Image.BILINEAR)
+        self.noise_amplitude = abs(kwargs.get('noise_amplitude', 0.))
 
     @property
     def image(self):
@@ -39,6 +40,11 @@ class Claptcha(object):
 
         # Line
         self._drawLine(image)
+
+        # White noise
+        noise = self._whiteNoise(image.size)
+        if noise is not None:
+            image = Image.blend(image, noise, 0.5)
 
         return (text, image)
 
@@ -140,6 +146,17 @@ class Claptcha(object):
             fontsize = self.h - 2 * self.margin_x
             self.__font = ImageFont.truetype(font, fontsize)
 
+    @property
+    def noise_amplitude(self):
+        return self.__noise_amplitude
+
+    @noise_amplitude.setter
+    def noise_amplitude(self, amp):
+        amp = float(amp)
+        if amp < 0. or amp > 1.:
+            raise ClaptchaError("only acceptable noise amplitude from range [0:1]")
+        self.__noise_amplitude = amp
+
     def _writeText(self, image, text, pos):
         offset = 0
         x,y = pos
@@ -180,6 +197,18 @@ class Claptcha(object):
 
         # Paste onto image
         image.paste(l_image, (0,0), l_image)
+
+    def _whiteNoise(self, size):
+        if self.noise_amplitude > 0.003921569: # 1./255.
+            w,h = size
+
+            n_image = Image.new('RGB', size, (0,0,0,0))
+            rnd_grid = map(lambda _: tuple([round(255 * random.uniform(1. - self.noise_amplitude, 1.))]) * 3,
+                           [0] * w * h)
+            n_image.putdata(list(rnd_grid))
+            return n_image
+        else:
+            return None
 
     def _rndLetterTransform(self, image):
         w,h = image.size

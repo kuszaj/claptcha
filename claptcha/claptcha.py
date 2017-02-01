@@ -35,7 +35,7 @@ class Claptcha(object):
         # Text
         self._writeText(image, text, pos=(margin_x, margin_y))
 
-        # Two lines
+        # Line
         self._drawLine(image)
 
         return image

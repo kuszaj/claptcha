@@ -40,7 +40,7 @@ class Claptcha(object):
         # Line
         self._drawLine(image)
 
-        return image
+        return (text, image)
 
     @property
     def bytes(self):

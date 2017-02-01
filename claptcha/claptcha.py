@@ -51,7 +51,9 @@ class Claptcha(object):
         return (text, bytes)
 
     def write(self, file):
-        self.image.save(file, format = self.format)
+        text, image = self.image
+        image.save(file, format = self.format)
+        return (text, file)
 
     @property
     def source(self):

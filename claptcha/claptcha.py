@@ -133,6 +133,7 @@ class Claptcha(object):
 
     @property
     def source(self):
+        """Text source, either a string or a callable object."""
         return self.__source
 
     @source.setter

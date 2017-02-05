@@ -287,7 +287,7 @@ class Claptcha(object):
         if self.noise > 0.003921569:  # 1./255.
             w, h = size
 
-            pixel = lambda noise: round(255 * random.uniform(1-noise, 1))
+            pixel = (lambda noise: round(255 * random.uniform(1-noise, 1)))
 
             n_image = Image.new('RGB', size, (0, 0, 0, 0))
             rnd_grid = map(lambda _: tuple([pixel(self.noise)]) * 3,

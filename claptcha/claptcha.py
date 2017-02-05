@@ -192,6 +192,7 @@ class Claptcha(object):
 
     @property
     def margin_x(self):
+        """CAPTCHA image estimated x margin."""
         return self.__margin[0]
 
     @property

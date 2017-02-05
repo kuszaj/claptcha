@@ -182,6 +182,7 @@ class Claptcha(object):
 
     @property
     def margin(self):
+        """CAPTCHA image estimated margin."""
         return self.__margin
     
     @margin.setter

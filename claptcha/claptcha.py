@@ -197,6 +197,7 @@ class Claptcha(object):
 
     @property
     def margin_y(self):
+        """CAPTCHA image estimated y margin."""
         return self.__margin[1]
 
     def _with_file_validator(func):

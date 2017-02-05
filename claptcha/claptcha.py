@@ -64,7 +64,7 @@ class Claptcha(object):
     @property
     def image(self):
         r"""
-        Tuple with a CAPTCHA text and an Image object.
+        Tuple with a CAPTCHA text and a Image object.
 
         Images are generated on the fly, using given text source, TTF font and
         other parameters passable through __init__. All letters in used text are

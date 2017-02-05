@@ -144,6 +144,7 @@ class Claptcha(object):
 
     @property
     def text(self):
+        """Text received from self.source."""
         if isinstance(self.source, str):
             return self.source
         else:

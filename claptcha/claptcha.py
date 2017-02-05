@@ -100,6 +100,15 @@ class Claptcha(object):
 
     @property
     def bytes(self):
+        r"""
+        Tuple with a CAPTCHA text and a BytesIO object.
+
+        Property calls self.image and saves image contents in a BytesIO
+        instance, returning CAPTCHA text and BytesIO as a tuple.
+        See: image.
+
+        :returns: ``tuple`` (CAPTCHA text, BytesIO object)
+        """
         text, image = self.image
         bytes = BytesIO()
         image.save(bytes, format = self.format)

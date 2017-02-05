@@ -15,7 +15,9 @@ class ClaptchaError(Exception):
 
 
 class Claptcha(object):
-    def __init__(self, source, font, size=(200,80), margin=(20,20), **kwargs):
+    def __init__(self, source, font,
+                 size=(200, 80), margin=(20, 20),
+                 **kwargs):
         r"""
         Claptcha object init.
 
@@ -48,10 +50,10 @@ class Claptcha(object):
               Image.BICUBIC. Default: Image.BILINEAR.
             * *noise* (``float``) --
               Parameter from range [0,1] used in creating noise effect in
-              CAPTCHA image. If not larger than 1/255, no noise if generated. It is
-              advised to not use this option if you want to focus on efficiency,
-              since generating noise can significantly extend image creation time.
-              Default: 0.
+              CAPTCHA image. If not larger than 1/255, no noise if generated.
+              It is advised to not use this option if you want to focus on
+              efficiency, since generating noise can significantly extend
+              image creation time. Default: 0.
         """
         self.source = source
         self.size = size
@@ -68,12 +70,12 @@ class Claptcha(object):
         Tuple with a CAPTCHA text and a Image object.
 
         Images are generated on the fly, using given text source, TTF font and
-        other parameters passable through __init__. All letters in used text are
-        morphed. Also a line is morphed and pased onto CAPTCHA text. Additionaly,
-        if self.noise > 1/255, a "snowy" image is merged with CAPTCHA image with
-        a 50/50 ratio.
-        Property returns a pair containing a string with text in returned image
-        and image itself.
+        other parameters passable through __init__. All letters in used text
+        are morphed. Also a line is morphed and pased onto CAPTCHA text.
+        Additionaly, if self.noise > 1/255, a "snowy" image is merged with
+        CAPTCHA image with a 50/50 ratio.
+        Property returns a pair containing a string with text in returned
+        image and image itself.
 
         :returns: ``tuple`` (CAPTCHA text, Image object)
         """
@@ -112,7 +114,7 @@ class Claptcha(object):
         """
         text, image = self.image
         bytes = BytesIO()
-        image.save(bytes, format = self.format)
+        image.save(bytes, format=self.format)
         bytes.seek(0)
         return (text, bytes)
 
@@ -129,7 +131,7 @@ class Claptcha(object):
         :returns: ``tuple`` (CAPTCHA text, filepath)
         """
         text, image = self.image
-        image.save(file, format = self.format)
+        image.save(file, format=self.format)
         return (text, file)
 
     @property
@@ -165,12 +167,12 @@ class Claptcha(object):
     def size(self):
         """CAPTCHA image size."""
         return self.__size
-        
+
     @size.setter
     @_with_pair_validator
     def size(self, size):
         self.__size = (int(size[0]), int(size[1]))
-       
+
     @property
     def w(self):
         """CAPTCHA image width."""
@@ -185,7 +187,7 @@ class Claptcha(object):
     def margin(self):
         """CAPTCHA image estimated margin."""
         return self.__margin
-    
+
     @margin.setter
     @_with_pair_validator
     def margin(self, margin):
@@ -240,14 +242,14 @@ class Claptcha(object):
     def _writeText(self, image, text, pos):
         """Write morphed text in Image object."""
         offset = 0
-        x,y = pos
+        x, y = pos
 
         for c in text:
             # Write letter
             c_size = self.font.getsize(c)
-            c_image = Image.new('RGBA', c_size, (0,0,0,0))
+            c_image = Image.new('RGBA', c_size, (0, 0, 0, 0))
             c_draw = ImageDraw.Draw(c_image)
-            c_draw.text((0, 0), c, font=self.font, fill=(0,0,0,255))
+            c_draw.text((0, 0), c, font=self.font, fill=(0, 0, 0, 255))
 
             # Transform
             c_image = self._rndLetterTransform(c_image)
@@ -258,11 +260,11 @@ class Claptcha(object):
 
     def _drawLine(self, image):
         """Draw morphed line in Image object."""
-        w,h = image.size
+        w, h = image.size
         w *= 5
         h *= 5
 
-        l_image = Image.new('RGBA', (w,h), (0,0,0,0))
+        l_image = Image.new('RGBA', (w, h), (0, 0, 0, 0))
         l_draw = ImageDraw.Draw(l_image)
 
         x1 = int(w * random.uniform(0, 0.1))
@@ -278,15 +280,17 @@ class Claptcha(object):
         l_image = l_image.resize(image.size, resample=self.resample)
 
         # Paste onto image
-        image.paste(l_image, (0,0), l_image)
+        image.paste(l_image, (0, 0), l_image)
 
     def _whiteNoise(self, size):
         """Generate white noise and merge it with given Image object."""
-        if self.noise > 0.003921569: # 1./255.
-            w,h = size
+        if self.noise > 0.003921569:  # 1./255.
+            w, h = size
 
-            n_image = Image.new('RGB', size, (0,0,0,0))
-            rnd_grid = map(lambda _: tuple([round(255 * random.uniform(1. - self.noise, 1.))]) * 3,
+            pixel = lambda noise: round(255 * random.uniform(1-noise, 1))
+
+            n_image = Image.new('RGB', size, (0, 0, 0, 0))
+            rnd_grid = map(lambda _: tuple([pixel(self.noise)]) * 3,
                            [0] * w * h)
             n_image.putdata(list(rnd_grid))
             return n_image
@@ -295,7 +299,7 @@ class Claptcha(object):
 
     def _rndLetterTransform(self, image):
         """Randomly morph a single character."""
-        w,h = image.size
+        w, h = image.size
 
         dx = w * random.uniform(0.2, 0.7)
         dy = h * random.uniform(0.2, 0.7)
@@ -306,22 +310,22 @@ class Claptcha(object):
         w += abs(x1) + abs(x2)
         h += abs(x1) + abs(x2)
 
-        quad = self.__class__._quadPoints((w,h), (x1,y1), (x2,y2))
+        quad = self.__class__._quadPoints((w, h), (x1, y1), (x2, y2))
 
         return image.transform(image.size, Image.QUAD,
                                data=quad, resample=self.resample)
 
     def _rndLineTransform(self, image):
         """Randomly morph Image object with drawn line."""
-        w,h = image.size
+        w, h = image.size
 
         dx = w * random.uniform(0.2, 0.5)
         dy = h * random.uniform(0.2, 0.5)
-        
+
         x1, y1 = [abs(z) for z in self.__class__._rndPointDisposition(dx, dy)]
         x2, y2 = [abs(z) for z in self.__class__._rndPointDisposition(dx, dy)]
 
-        quad = self.__class__._quadPoints((w,h), (x1,y1), (x2,y2))
+        quad = self.__class__._quadPoints((w, h), (x1, y1), (x2, y2))
 
         return image.transform(image.size, Image.QUAD,
                                data=quad, resample=self.resample)
@@ -331,14 +335,14 @@ class Claptcha(object):
         """Return random disposition point."""
         x = int(random.uniform(-dx, dx))
         y = int(random.uniform(-dy, dy))
-        return (x,y)
+        return (x, y)
 
     @staticmethod
     def _quadPoints(size, disp1, disp2):
         """Return points for QUAD transformation."""
-        w,h = size
-        x1,y1 = disp1
-        x2,y2 = disp2
+        w, h = size
+        x1, y1 = disp1
+        x2, y2 = disp2
 
         return (
             x1,    -y1,

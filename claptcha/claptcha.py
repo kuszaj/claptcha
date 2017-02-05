@@ -116,6 +116,17 @@ class Claptcha(object):
         return (text, bytes)
 
     def write(self, file):
+        r"""
+        Save CAPTCHA image in given filepath.
+
+        Property calls self.image and saves image contents in a file,
+        returning CAPTCHA text and filepath as a tuple.
+        See: image.
+
+        :param file:
+            Path to file, where CAPTCHA image will be saved.
+        :returns: ``tuple`` (CAPTCHA text, filepath)
+        """
         text, image = self.image
         image.save(file, format = self.format)
         return (text, file)

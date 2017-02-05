@@ -213,6 +213,7 @@ class Claptcha(object):
 
     @property
     def font(self):
+        """ImageFont object from PIL package."""
         return self.__font
 
     @font.setter

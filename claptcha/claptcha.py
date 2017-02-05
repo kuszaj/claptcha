@@ -63,6 +63,19 @@ class Claptcha(object):
 
     @property
     def image(self):
+        r"""
+        Tuple with a CAPTCHA text and an Image object.
+
+        Images are generated on the fly, using given text source, TTF font and
+        other parameters passable through __init__. All letters in used text are
+        morphed. Also a line is morphed and pased onto CAPTCHA text. Additionaly,
+        if self.noise > 1/255, a "snowy" image is merged with CAPTCHA image with
+        a 50/50 ratio.
+        Property returns a pair containing a string with text in returned image
+        and image itself.
+
+        :returns: ``tuple`` (CAPTCHA text, Image object)
+        """
         text = self.text
         w, h = self.font.getsize(text)
         margin_x = round(self.margin_x * w / self.w)

@@ -15,6 +15,43 @@ class ClaptchaError(Exception):
 
 class Claptcha(object):
     def __init__(self, source, font, size=(200,80), margin=(20,20), **kwargs):
+        r"""
+        Claptcha object init.
+
+        Claptcha object requires at least a text source (a string or a
+        callable object returning a string) and a path to a TTF file. Both
+        are used in generating text in returned CAPTCHA image with a given
+        font. Callable object allow for creating variable CAPTCHAs without
+        redeclaring Claptcha instance, e.g. a randomized stream of characters
+
+        :param source:
+            String or a callable object returning a string.
+        :param font:
+            Valid path (relative or absolute) to a TTF file.
+        :param size:
+            A pair with CAPTCHA size (width, height)
+            in pixels.
+        :param margin:
+            A pair with CAPTCHA x and y margins in pixels
+            Note that generated text may slightly overlap
+            given margins, you should treat them only as
+            an estimate.
+        :param \**kwargs:
+            See below
+
+        :Keyword Arguments:
+            * *format* (``string``) --
+              Image format acceptable by Image class from PIL package.
+            * *resample* (``int``) --
+              Resampling filter. Allowed: Image.NEAREST, Image.BILINEAR and
+              Image.BICUBIC. Default: Image.BILINEAR.
+            * *noise* (``float``) --
+              Parameter from range [0,1] used in creating noise effect in
+              CAPTCHA image. If not larger than 1/255, no noise if generated. It is
+              advised to not use this option if you want to focus on efficiency,
+              since generating noise can significantly extend image creation time.
+              Default: 0.
+        """
         self.source = source
         self.size = size
         self.margin = margin

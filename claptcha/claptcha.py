@@ -162,6 +162,7 @@ class Claptcha(object):
 
     @property
     def size(self):
+        """CAPTCHA image size."""
         return self.__size
         
     @size.setter

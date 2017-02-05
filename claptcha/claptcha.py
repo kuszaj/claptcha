@@ -10,6 +10,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 class ClaptchaError(Exception):
     """Exception class for Claptcha errors."""
+
     pass
 
 

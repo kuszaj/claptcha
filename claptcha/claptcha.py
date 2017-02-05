@@ -237,6 +237,7 @@ class Claptcha(object):
         self.__noise = noise
 
     def _writeText(self, image, text, pos):
+        """Writes morphed text in Image object."""
         offset = 0
         x,y = pos
 
@@ -255,6 +256,7 @@ class Claptcha(object):
             offset += c_size[0]
 
     def _drawLine(self, image):
+        """Draws morphed line in Image object."""
         w,h = image.size
         w *= 5
         h *= 5
@@ -278,6 +280,7 @@ class Claptcha(object):
         image.paste(l_image, (0,0), l_image)
 
     def _whiteNoise(self, size):
+        """Generates white noise and merge it with given Image object."""
         if self.noise > 0.003921569: # 1./255.
             w,h = size
 
@@ -290,6 +293,7 @@ class Claptcha(object):
             return None
 
     def _rndLetterTransform(self, image):
+        """Randomly morphs a single character."""
         w,h = image.size
 
         dx = w * random.uniform(0.2, 0.7)
@@ -307,6 +311,7 @@ class Claptcha(object):
                                data=quad, resample=self.resample)
 
     def _rndLineTransform(self, image):
+        """Randomly morphs Image object with drawn line."""
         w,h = image.size
 
         dx = w * random.uniform(0.2, 0.5)
@@ -322,12 +327,14 @@ class Claptcha(object):
 
     @staticmethod
     def _rndPointDisposition(dx, dy):
+        """Return random disposition point."""
         x = int(random.uniform(-dx, dx))
         y = int(random.uniform(-dy, dy))
         return (x,y)
 
     @staticmethod
     def _quadPoints(size, disp1, disp2):
+        """Return points for QUAD transformation."""
         w,h = size
         x1,y1 = disp1
         x2,y2 = disp2

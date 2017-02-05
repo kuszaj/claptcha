@@ -227,6 +227,7 @@ class Claptcha(object):
 
     @property
     def noise(self):
+        """Noise parameter from [0,1]."""
         return self.__noise
 
     @noise.setter

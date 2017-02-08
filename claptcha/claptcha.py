@@ -15,6 +15,24 @@ class ClaptchaError(Exception):
 
 
 class Claptcha(object):
+    r"""
+    Claptcha class.
+
+    Claptcha is used in generating PIL Images, BytesIO objects and image
+    files with CAPTCHA messages. User has to provide at least a source
+    (a string containing text used in CAPTCHA image or a callable object
+    returning a string) and a filepath to TTF font file.
+
+    Additionally, Claptcha allows to define image size and estimated
+    margins, used in automatically calculating font size. By default,
+    Claptcha generates a PNG image using bicubic resampling filter
+    (configurable).
+
+    Optionally, user can define white noise, making it less readable for
+    OCR software. However, this significantly extends execution time of
+    image creation.
+    """
+
     def __init__(self, source, font,
                  size=(200, 80), margin=(20, 20),
                  **kwargs):

@@ -119,6 +119,9 @@ class Claptcha(object):
         if noise is not None:
             image = Image.blend(image, noise, 0.5)
 
+        # Resize
+        image = image.resize(self.size, resample=self.resample)
+
         return (text, image)
 
     @property

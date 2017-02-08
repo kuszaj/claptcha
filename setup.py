@@ -23,7 +23,7 @@ setup(name='claptcha',
           'Operating System :: POSIX :: Linux',
           'Programming Language :: Python :: 3',
           'Programming Language :: Python :: 3.5',
-          'Topic :: Multimegia :: Graphics',
+          'Topic :: Multimedia :: Graphics',
           'Topic :: Software Development :: Libraries :: Python Modules',
       ]
 )

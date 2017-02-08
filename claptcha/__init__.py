@@ -3,7 +3,7 @@
 """
 Simple CAPTCHA generator package.
 
-This module provides w single class (Claptcha) that can create on the fly
+This module provides a single class (Claptcha) that can create on the fly
 PIL Image instances, BytesIO objects or save image files containing a simple
 CAPTCHA strings. Its build on top of Pillow package.
 

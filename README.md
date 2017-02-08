@@ -27,21 +27,21 @@ c = Claptcha("Text", "FreeMono.ttf")
 # Get PIL Image object
 text, image = c.image
 
-print(text))         # Text
+print(text))         # 'Text'
 print(type(image)))  # <class 'PIL.Image.Image'>
 
 # Get BytesIO object (note that it will represent a different image, just
 # with the same text)
 text, bytes = c.bytes
 
-print(text))         # Text
+print(text))         # 'Text'
 print(type(bytes)))  # <class '_io.BytesIO'>
 
 # Save a PNG file 'test.png'
 text, file = c.write('test.png')
 
-print(text))         # Text
-print(file))         # test.png
+print(text))         # 'Text'
+print(file))         # 'test.png'
 ```
 
 ```python
@@ -60,10 +60,10 @@ c = Claptcha(randomString, "FreeMono.ttf", (100,30),
              resample=Image.BICUBIC), noise=0.3)
 
 text, _ = c.write('captcha1.png')
-print(text)  # PZTBXB
+print(text)  # 'PZTBXB', string printed into captcha1.png
 
 text, _ = c.write('captcha2.png')
-print(text)  # NEDKEM
+print(text)  # 'NEDKEM', string printed into captcha2.png
 ```
 
 ## License

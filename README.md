@@ -12,56 +12,59 @@ to be used in images.
 
 ## Installation
 
-.. code-block:: bash
-    $ python3 setup.py install
+```bash
+$ python3 setup.py install
+```
 
 ## Usage
 
-.. code-block:: python
-    from claptcha import Claptcha
+```python
+from claptcha import Claptcha
 
-    # Initialize Claptcha object with "Text" as text and FreeMono as font
-    c = Claptcha("Text", "FreeMono.ttf")
+# Initialize Claptcha object with "Text" as text and FreeMono as font
+c = Claptcha("Text", "FreeMono.ttf")
 
-    # Get PIL Image object
-    text, image = c.image
+# Get PIL Image object
+text, image = c.image
 
-    print(text))         # Text
-    print(type(image)))  # <class 'PIL.Image.Image'>
+print(text))         # Text
+print(type(image)))  # <class 'PIL.Image.Image'>
 
-    # Get BytesIO object (note that it will represent a different image, just
-    # with the same text)
-    text, bytes = c.bytes
+# Get BytesIO object (note that it will represent a different image, just
+# with the same text)
+text, bytes = c.bytes
 
-    print(text))         # Text
-    print(type(bytes)))  # <class '_io.BytesIO'>
+print(text))         # Text
+print(type(bytes)))  # <class '_io.BytesIO'>
 
-    # Save a PNG file 'test.png'
-    text, file = c.write('test.png')
+# Save a PNG file 'test.png'
+text, file = c.write('test.png')
 
-    print(text))         # Text
-    print(file))         # test.png
+print(text))         # Text
+print(file))         # test.png
+```
 
-.. code-block:: python
-    import random
-    import string
-    from PIL import Image
-    from claptcha import Claptcha
+```python
+import random
+import string
+from PIL import Image
+from claptcha import Claptcha
 
-    def rndStr():
-        rndLetters = (random.choice(string.ascii_uppercase) for _ in range(6))
-        return "".join(rndLetters)
+def randomString():
+    rndLetters = (random.choice(string.ascii_uppercase) for _ in range(6))
+    return "".join(rndLetters)
 
-    # Initialize Claptcha object with random text, FreeMono as font, of size
-    # 100x30, using bicubic resampling filter and adding a bit of white noise
-    c = Claptcha("Text", "FreeMono.ttf", (100,30),
-                 resample=Image.BICUBIC), noise=0.3)
+# Initialize Claptcha object with random text, FreeMono as font, of size
+# 100x30, using bicubic resampling filter and adding a bit of white noise
+c = Claptcha(randomString, "FreeMono.ttf", (100,30),
+             resample=Image.BICUBIC), noise=0.3)
 
-    text, _ = c.write('captcha1.png')
-    print(text)  # PZTBXB
+text, _ = c.write('captcha1.png')
+print(text)  # PZTBXB
 
-    text, _ = c.write('captcha2.png')
-    print(text)  # NEDKEM
+text, _ = c.write('captcha2.png')
+print(text)  # NEDKEM
+```
 
 ## License
 

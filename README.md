@@ -13,6 +13,10 @@ to be used in images.
 ## Installation
 
 ```bash
+$ pip3 install claptcha
+```
+or
+```bash
 $ python3 setup.py install
 ```
 

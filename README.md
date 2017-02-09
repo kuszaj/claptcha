@@ -68,6 +68,14 @@ print(text)  # 'PZTBXB', string printed into captcha1.png
 
 text, _ = c.write('captcha2.png')
 print(text)  # 'NEDKEM', string printed into captcha2.png
+
+# Change images' size to 150x90 and estimated margin to 25x25
+c.size = (150,90)
+c.margin = (25,25)
+
+text, _ = c.write('captcha3.png')
+print(text)  # 'XCQYVS', captcha3.png has different dimentions than
+             # captcha1.png and captcha2.png
 ```
 
 ## License

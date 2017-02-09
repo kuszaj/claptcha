@@ -214,6 +214,8 @@ class Claptcha(object):
     @margin.setter
     @_with_pair_validator
     def margin(self, margin):
+        if 2*margin[1] > self.h:
+            raise ClaptchaError("Margin y cannot be larger than half of image height.")
         self.__margin = (int(margin[0]), int(margin[1]))
 
     @property
@@ -286,7 +288,6 @@ class Claptcha(object):
         w, h = image.size
         w *= 5
         h *= 5
-        print(image.size)
 
         l_image = Image.new('RGBA', (w, h), (0, 0, 0, 0))
         l_draw = ImageDraw.Draw(l_image)

@@ -33,11 +33,11 @@ Examples:
 >>> def captchaStr():
 ...     return "TextFromFunc"
 ...
->>> # Redefine c: change its size to 100x30, use nearest resampling filter
+>>> # Redefine c: change its size to 100x30, use bicubic resampling filter
 >>> # and add white noise
 >>> from PIL import Image
 >>> c = Claptcha(captchaStr, "FreeMono.ttf", (100,30),
-...              resampling=Image.NEAREST, noise=0.3)
+...              resampling=Image.BICUBIC, noise=0.3)
 >>> c.image
 ('TextFromFunc', <PIL.Image.Image image mode=RGB size=100x30 at 0xB73EE66C>)
 """

@@ -80,4 +80,4 @@ print(text)  # 'XCQYVS', captcha3.png has different dimentions than
 
 ## License
 
-MIT
+MIT, see `LICENCE`.

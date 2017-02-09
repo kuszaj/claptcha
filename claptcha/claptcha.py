@@ -286,6 +286,7 @@ class Claptcha(object):
         w, h = image.size
         w *= 5
         h *= 5
+        print(image.size)
 
         l_image = Image.new('RGBA', (w, h), (0, 0, 0, 0))
         l_draw = ImageDraw.Draw(l_image)
@@ -295,8 +296,12 @@ class Claptcha(object):
         x2 = int(w * random.uniform(0.9, 1))
         y2 = int(h * random.uniform(0, 1))
 
+        # Line width modifier was chosen as an educated guess
+        # based on default image area.
+        l_width = round((w * h)**0.5 * 2.284e-2)
+
         # Draw
-        l_draw.line(((x1, y1), (x2, y2)), fill=(0, 0, 0, 255), width=12)
+        l_draw.line(((x1, y1), (x2, y2)), fill=(0, 0, 0, 255), width=l_width)
 
         # Transform
         l_image = self._rndLineTransform(l_image)

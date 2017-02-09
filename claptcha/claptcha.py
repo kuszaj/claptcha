@@ -250,7 +250,7 @@ class Claptcha(object):
         if isinstance(font, ImageFont.ImageFont):
             self.__font = font
         else:
-            fontsize = self.h - 2 * self.margin_x
+            fontsize = self.h - 2 * self.margin_y
             self.__font = ImageFont.truetype(font, fontsize)
 
     @property

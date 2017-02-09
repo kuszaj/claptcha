@@ -61,7 +61,7 @@ def randomString():
 # Initialize Claptcha object with random text, FreeMono as font, of size
 # 100x30, using bicubic resampling filter and adding a bit of white noise
 c = Claptcha(randomString, "FreeMono.ttf", (100,30),
-             resample=Image.BICUBIC), noise=0.3)
+             resample=Image.BICUBIC, noise=0.3)
 
 text, _ = c.write('captcha1.png')
 print(text)  # 'PZTBXB', string printed into captcha1.png

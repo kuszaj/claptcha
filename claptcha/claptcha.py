@@ -20,7 +20,7 @@ class Claptcha(object):
     r"""
     Claptcha class.
 
-    Claptcha is used in generating PIL Images, BytesIO objects and image
+    Claptcha can be use to create PIL Images, BytesIO objects and image
     files with CAPTCHA messages. User has to provide at least a source
     (a string containing text used in CAPTCHA image or a callable object
     returning a string) and a filepath to TTF font file.

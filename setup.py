@@ -11,6 +11,7 @@ setup(name='claptcha',
       description="A simple CAPTCHA image generator",
       long_description=long_description,
       license='MIT',
+      packages=['claptcha'],
       install_requires=[
           'Pillow'
       ],

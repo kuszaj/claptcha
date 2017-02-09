@@ -1,6 +1,6 @@
 # Claptcha
 
-Simple CAPTCHA generator package.
+A simple CAPTCHA image generator.
 
 This module provides a single class (Claptcha) that can create on the fly
 PIL Image instances, BytesIO objects or save image files containing a simple
